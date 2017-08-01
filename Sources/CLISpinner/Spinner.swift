@@ -27,7 +27,7 @@ public class Spinner {
     var frameIdx = 0
     let queue = DispatchQueue(label: "io.kilian.CLISpinner")
 
-    public init(with pattern: Pattern, speed: Double? = nil) {
+    public init(pattern: Pattern, speed: Double? = nil) {
         self.pattern = pattern
         self.speed = speed ?? pattern.recommendedSpeed
     }
