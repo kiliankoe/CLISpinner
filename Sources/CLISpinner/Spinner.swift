@@ -37,8 +37,9 @@ public class Spinner {
     ///   - pattern: The pattern to use.
     ///   - text: Text to display, defaults to none.
     ///   - speed: Custom speed value, defaults to a recommended value for each predefined pattern.
-    public init(pattern: Pattern, text: String = "", speed: Double? = nil) {
-        self.pattern = pattern
+    ///   - color: Custom spinner color, defaults to .default.
+    public init(pattern: Pattern, text: String = "", speed: Double? = nil, color: Color = .default) {
+        self.pattern = Pattern(from: pattern.symbols.map { $0.applyingColor(color) })
         self._text = text
         self.speed = speed ?? pattern.recommendedSpeed
     }
