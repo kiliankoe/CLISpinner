@@ -1,4 +1,5 @@
 import Foundation
+import Rainbow
 
 public class Spinner {
     /// The pattern the spinner uses.
@@ -66,7 +67,7 @@ public class Spinner {
             self.text = text
         }
         if let symbol = symbol {
-            self.pattern = Pattern(from: symbol)
+            self.pattern = Pattern(single: symbol)
         }
         self.render()
         self.isRunning = false
@@ -74,29 +75,32 @@ public class Spinner {
         print() // Ensure a newline after stopping
     }
 
-    /// Stop the spinner, change it to a '✔' and persist the current or provided text.
+    /// Stop the spinner, change it to a green '✔' and persist the current or provided text.
     ///
     /// - Parameter text: Text to persist if not the one already set
     public func succeed(text: String? = nil) {
-        self.stop(text: text, symbol: "✔")
+        self.stop(text: text, symbol: "✔".green)
     }
 
+    /// Stop the spinner, change it to a red '✖' and persist the current or provided text.
+    ///
+    /// - Parameter text: Text to persist if not the one already set
     public func fail(text: String? = nil) {
-        self.stop(text: text, symbol: "✖")
+        self.stop(text: text, symbol: "✖".red)
     }
 
-    /// Stop the spinner, change it to a '⚠' and persist the current or provided text.
+    /// Stop the spinner, change it to a yellow '⚠' and persist the current or provided text.
     ///
     /// - Parameter text: Text to persist if not the one already set
     public func warn(text: String? = nil) {
-        self.stop(text: text, symbol: "⚠")
+        self.stop(text: text, symbol: "⚠".yellow)
     }
 
-    /// Stop the spinner, change it to a 'ℹ' and persist the current or provided text.
+    /// Stop the spinner, change it to a blue 'ℹ' and persist the current or provided text.
     ///
     /// - Parameter text: Text to persist if not the one already set
     public func info(text: String? = nil) {
-        self.stop(text: text, symbol: "ℹ")
+        self.stop(text: text, symbol: "ℹ".blue)
     }
 
     func wait(seconds: Double) {
