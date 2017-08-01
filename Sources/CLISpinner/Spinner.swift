@@ -46,11 +46,33 @@ public class Spinner {
         }
     }
 
-    public func stop() {
+    public func stop(text: String? = nil, symbol: String? = nil) {
+        if let text = text {
+            self.text = text
+        }
+        if let symbol = symbol {
+            self.pattern = Pattern(from: symbol)
+        }
         self.render()
         self.isRunning = false
         hideCursor(false)
         print() // Ensure a newline after stopping
+    }
+
+    public func succeed(text: String? = nil) {
+        self.stop(text: text, symbol: "✔")
+    }
+
+    public func fail(text: String? = nil) {
+        self.stop(text: text, symbol: "✖")
+    }
+
+    public func warn(text: String? = nil) {
+        self.stop(text: text, symbol: "⚠")
+    }
+
+    public func info(text: String? = nil) {
+        self.stop(text: text, symbol: "ℹ")
     }
 
     func wait(seconds: Double) {
