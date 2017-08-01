@@ -148,4 +148,75 @@ public enum Pattern {
         case .multiple(let multiple): return multiple
         }
     }
+
+    var recommendedSpeed: Double {
+        switch self {
+        case .dots: return 0.08
+        case .dots2: return 0.08
+        case .dots3: return 0.08
+        case .dots4: return 0.08
+        case .dots5: return 0.08
+        case .dots6: return 0.08
+        case .dots7: return 0.08
+        case .dots8: return 0.08
+        case .dots9: return 0.08
+        case .dots10: return 0.08
+        case .dots11: return 0.1
+        case .dots12: return 0.08
+        case .line: return 0.13
+        case .line2: return 0.1
+        case .pipe: return 0.1
+        case .simpleDots: return 0.4
+        case .simpleDotsScrolling: return 0.2
+        case .star: return 0.07
+        case .star2: return 0.08
+        case .flip: return 0.07
+        case .hamburger: return 0.1
+        case .growVertical: return 0.12
+        case .growHorizontal: return 0.12
+        case .balloon: return 0.14
+        case .balloon2: return 0.12
+        case .noise: return 0.1
+        case .bounce: return 0.12
+        case .boxBounce: return 0.12
+        case .boxBounce2: return 0.1
+        case .triangle: return 0.05
+        case .arc: return 0.1
+        case .circle: return 0.12
+        case .squareCorners: return 0.18
+        case .circleQuarters: return 0.12
+        case .circleHalves: return 0.05
+        case .squish: return 0.1
+        case .toggle: return 0.25
+        case .toggle2: return 0.08
+        case .toggle3: return 0.12
+        case .toggle4: return 0.1
+        case .toggle5: return 0.1
+        case .toggle6: return 0.3
+        case .toggle7: return 0.08
+        case .toggle8: return 0.1
+        case .toggle9: return 0.1
+        case .toggle10: return 0.1
+        case .toggle11: return 0.1
+        case .toggle12: return 0.12
+        case .toggle13: return 0.08
+        case .arrow: return 0.1
+        case .arrow2: return 0.08
+        case .arrow3: return 0.12
+        case .bouncingBar: return 0.08
+        case .bouncingBall: return 0.08
+        case .smiley: return 0.2
+        case .monkey: return 0.3
+        case .hearts: return 0.1
+        case .clock: return 0.1
+        case .earth: return 0.18
+        case .moon: return 0.08
+        case .runner: return 0.14
+        case .pong: return 0.08
+        case .shark: return 0.12
+        case .dqpb: return 0.1
+        case .single(_): return 0.08
+        case .multiple(_): return 0.08
+        }
+    }
 }

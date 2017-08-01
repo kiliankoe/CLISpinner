@@ -6,9 +6,9 @@ public class Spinner {
     var isRunning = true
     let queue = DispatchQueue(label: "io.kilian.CLISpinner")
 
-    public init(with pattern: Pattern, speed: Double = 0.05) {
+    public init(with pattern: Pattern, speed: Double? = nil) {
         self.pattern = pattern
-        self.speed = speed
+        self.speed = speed ?? pattern.recommendedSpeed
     }
 
     public func start() {
