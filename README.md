@@ -18,11 +18,27 @@ Shamelessly ripped of from [sindresorhus/cli-spinners](https://github.com/sindre
 
 ## Usage
 
+Just want to display a spinner for two seconds? 
+
 ```swift
-let spinner = Spinner(with: .dots)
-spinner.start()
+let s = Spinner(pattern: .dots)
+s.start()
 sleep(2)
-spinner.end()
+s.end()
 ```
 
-You can also override the display speed, while it's running or not.
+Want some changing text and and patterns?
+
+```swift
+let s = Spinner(pattern: .dots, text: "Foobar...")
+s.start()
+sleep(2)
+s.text = "Barfoo..."
+s.pattern = Pattern(from: "✔︎")
+sleep(1)
+s.end()
+```
+
+
+
+That's basically it 👌
