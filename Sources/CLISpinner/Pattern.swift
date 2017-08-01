@@ -77,7 +77,7 @@ public enum Pattern {
         self = .multiple(multiple)
     }
 
-    var symbols: [String] {
+    public var symbols: [String] {
         switch self {
         case .dots: return ["⠋","⠙","⠹","⠸","⠼","⠴","⠦","⠧","⠇","⠏"]
         case .dots2: return ["⣾","⣽","⣻","⢿","⡿","⣟","⣯","⣷"]
@@ -149,7 +149,7 @@ public enum Pattern {
         }
     }
 
-    var recommendedSpeed: Double {
+    public var recommendedSpeed: Double {
         switch self {
         case .dots: return 0.08
         case .dots2: return 0.08
