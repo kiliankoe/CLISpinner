@@ -46,7 +46,7 @@ public class Spinner {
         }
     }
 
-    public func end() {
+    public func stop() {
         self.isRunning = false
         hideCursor(false)
     }
