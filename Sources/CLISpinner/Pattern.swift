@@ -69,11 +69,11 @@ public enum Pattern {
     case single(String)
     case multiple([String])
 
-    init(from single: String) {
+    public init(from single: String) {
         self = .single(single)
     }
 
-    init(from multiple: [String]) {
+    public init(from multiple: [String]) {
         self = .multiple(multiple)
     }
 
