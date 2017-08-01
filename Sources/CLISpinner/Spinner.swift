@@ -1,12 +1,15 @@
 import Foundation
 
 public class Spinner {
+    /// The pattern the spinner uses.
     public var pattern: Pattern {
         didSet {
             self.frameIdx = 0
         }
     }
+    /// The time to wait in seconds between each frame of the animation.
     public var speed: Double
+    /// Text that is displayed right next to the spinner.
     public var text: String {
         get {
             return self._text
@@ -27,12 +30,19 @@ public class Spinner {
     var frameIdx = 0
     let queue = DispatchQueue(label: "io.kilian.CLISpinner")
 
+    /// Create a new `Spinner`.
+    ///
+    /// - Parameters:
+    ///   - pattern: The pattern to use.
+    ///   - text: Text to display, defaults to none.
+    ///   - speed: Custom speed value, defaults to a recommended value for each predefined pattern.
     public init(pattern: Pattern, text: String = "", speed: Double? = nil) {
         self.pattern = pattern
         self._text = text
         self.speed = speed ?? pattern.recommendedSpeed
     }
 
+    /// Start the spinner.
     public func start() {
         hideCursor(true)
         isRunning = true
@@ -46,6 +56,11 @@ public class Spinner {
         }
     }
 
+    /// Stop the spinner.
+    ///
+    /// - Parameters:
+    ///   - text: Text to display as a final value when stopping.
+    ///   - symbol: A symbol to replace the spinner with when stopping.
     public func stop(text: String? = nil, symbol: String? = nil) {
         if let text = text {
             self.text = text
@@ -59,6 +74,9 @@ public class Spinner {
         print() // Ensure a newline after stopping
     }
 
+    /// Stop the spinner, change it to a '✔' and persist the current or provided text.
+    ///
+    /// - Parameter text: Text to persist if not the one already set
     public func succeed(text: String? = nil) {
         self.stop(text: text, symbol: "✔")
     }
@@ -67,10 +85,16 @@ public class Spinner {
         self.stop(text: text, symbol: "✖")
     }
 
+    /// Stop the spinner, change it to a '⚠' and persist the current or provided text.
+    ///
+    /// - Parameter text: Text to persist if not the one already set
     public func warn(text: String? = nil) {
         self.stop(text: text, symbol: "⚠")
     }
 
+    /// Stop the spinner, change it to a 'ℹ' and persist the current or provided text.
+    ///
+    /// - Parameter text: Text to persist if not the one already set
     public func info(text: String? = nil) {
         self.stop(text: text, symbol: "ℹ")
     }
