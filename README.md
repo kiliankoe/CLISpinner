@@ -11,7 +11,7 @@ Shamelessly ripped of from [sindresorhus/cli-spinners](https://github.com/sindre
 ## Install
 
 ```swift
-.package(url: "https://github.com/kiliankoe/CLISpinner", from: "0.1.0")
+.package(url: "https://github.com/kiliankoe/CLISpinner", from: "0.3.0")
 ```
 
 
