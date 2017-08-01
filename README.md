@@ -30,7 +30,7 @@ s.stop()
 Want some changing text and and patterns?
 
 ```swift
-let s = Spinner(pattern: .dots, text: "Foobar...")
+let s = Spinner(pattern: .dots, text: "Foobar...", color: .lightCyan)
 s.start()
 sleep(2)
 s.succeed(text: "Barfoo")
