@@ -111,7 +111,7 @@ public class Spinner {
     func frame() -> String {
         let frame = self.pattern.symbols[self.frameIdx]
         self.frameIdx = (self.frameIdx + 1) % self.pattern.symbols.count
-        return "\(frame) \(self._text)" // TODO: Support colors here, preferably separate for spinner and text
+        return "\(frame) \(self._text)"
     }
 
     func resetCursor() {
