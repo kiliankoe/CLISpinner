@@ -49,6 +49,7 @@ public class Spinner {
     public func stop() {
         self.isRunning = false
         hideCursor(false)
+        print() // Ensure a newline after stopping
     }
 
     func wait(seconds: Double) {
