@@ -69,10 +69,16 @@ public enum Pattern {
     case single(String)
     case multiple([String])
 
-    public init(from single: String) {
+    /// Creates a pattern from a single value, e.g. no animation.
+    ///
+    /// - Parameter single: the string to show as the spinner
+    public init(single: String) {
         self = .single(single)
     }
 
+    /// Creates a pattern from a list of values.
+    ///
+    /// - Parameter multiple: the values to animate.
     public init(from multiple: [String]) {
         self = .multiple(multiple)
     }
@@ -144,7 +150,7 @@ public enum Pattern {
         case .shark: return ["▐|\\____________▌","▐_|\\___________▌","▐__|\\__________▌","▐___|\\_________▌","▐____|\\________▌","▐_____|\\_______▌","▐______|\\______▌","▐_______|\\_____▌","▐________|\\____▌","▐_________|\\___▌","▐__________|\\__▌","▐___________|\\_▌","▐____________|\\▌","▐____________/|▌","▐___________/|_▌","▐__________/|__▌","▐_________/|___▌","▐________/|____▌","▐_______/|_____▌","▐______/|______▌","▐_____/|_______▌","▐____/|________▌","▐___/|_________▌","▐__/|__________▌","▐_/|___________▌","▐/|____________▌"]
         case .dqpb: return ["d","q","p","b"]
 
-        case .single(let single): return single.characters.map(String.init)
+        case .single(let single): return [single]
         case .multiple(let multiple): return multiple
         }
     }
@@ -215,7 +221,7 @@ public enum Pattern {
         case .pong: return 0.08
         case .shark: return 0.12
         case .dqpb: return 0.1
-        case .single(_): return 0.08
+        case .single(_): return 1
         case .multiple(_): return 0.08
         }
     }
