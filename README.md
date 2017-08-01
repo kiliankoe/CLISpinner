@@ -18,13 +18,13 @@ Shamelessly ripped of from [sindresorhus/cli-spinners](https://github.com/sindre
 
 ## Usage
 
-Just want to display a spinner for two seconds? 
+Just want to display a simple spinner for two seconds? 
 
 ```swift
 let s = Spinner(pattern: .dots)
 s.start()
 sleep(2)
-s.end()
+s.stop()
 ```
 
 Want some changing text and and patterns?
@@ -33,10 +33,8 @@ Want some changing text and and patterns?
 let s = Spinner(pattern: .dots, text: "Foobar...")
 s.start()
 sleep(2)
-s.text = "Barfoo..."
-s.pattern = Pattern(from: "✔︎")
-sleep(1)
-s.end()
+s.succeed(text: "Barfoo")
+// will change the displayed text to '✔ Barfoo'
 ```
 
 
