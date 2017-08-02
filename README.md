@@ -1,5 +1,7 @@
 # CLISpinner
 
+[![Travis](https://img.shields.io/travis/kiliankoe/CLISpinner.svg?style=flat-square)](https://travis-ci.org/kiliankoe/CLISpinner/)
+
 > 60+ spinners for use in the terminal
 
 ![](https://github.com/sindresorhus/cli-spinners/raw/master/screenshot.gif)
@@ -11,7 +13,7 @@ Shamelessly ripped of from [sindresorhus/cli-spinners](https://github.com/sindre
 ## Install
 
 ```swift
-.package(url: "https://github.com/kiliankoe/CLISpinner", from: "0.3.0")
+.package(url: "https://github.com/kiliankoe/CLISpinner", from: "see latest release")
 ```
 
 
