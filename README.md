@@ -6,7 +6,7 @@
 
 ![](https://github.com/sindresorhus/cli-spinners/raw/master/screenshot.gif)
 
-Shamelessly ripped of from [sindresorhus/cli-spinners](https://github.com/sindresorhus/cli-spinners).
+Shamelessly ripped off from [sindresorhus/cli-spinners](https://github.com/sindresorhus/cli-spinners).
 
 
 
@@ -29,7 +29,7 @@ sleep(2)
 s.stop()
 ```
 
-Want some changing text and and patterns?
+Want some changing text and patterns?
 
 ```swift
 let s = Spinner(pattern: .dots, text: "Foobar...", color: .lightCyan)
