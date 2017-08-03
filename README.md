@@ -63,3 +63,10 @@ Signals.trap(signal: .int) { _ in
 }
 ```
 
+
+
+## Used by
+
+- [kiliankoe/apodidae](https://github.com/kiliankoe/apodidae) - CLI to search for Swift packages
+- Your project? 😊
+
