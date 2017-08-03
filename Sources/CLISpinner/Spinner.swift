@@ -135,5 +135,12 @@ public class Spinner {
             self.output("\u{001B}[?25h")
         }
     }
+
+    /// Unhide the cursor.
+    ///
+    /// - Note: This should most definitely be called on a SIGINT in your project.
+    public func unhideCursor() {
+        self.hideCursor(false)
+    }
 }
 
