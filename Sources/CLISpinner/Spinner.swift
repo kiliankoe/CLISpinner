@@ -63,17 +63,24 @@ public class Spinner {
     /// - Parameters:
     ///   - text: Text to display as a final value when stopping.
     ///   - symbol: A symbol to replace the spinner with when stopping.
-    public func stop(text: String? = nil, symbol: String? = nil) {
+    ///   - terminator: The string to print after stopping. Defaults to newline ("\n").
+    public func stop(text: String? = nil, symbol: String? = nil, terminator: String = "\n") {
         if let text = text {
             self.text = text
         }
         if let symbol = symbol {
-            self.pattern = Pattern(single: symbol)
+            self.pattern = Pattern(single: symbol.isEmpty ? " " : symbol)
         }
         self.render()
         self.isRunning = false
         hideCursor(false)
-        print() // Ensure a newline after stopping
+        print(terminator: terminator)
+    }
+
+    /// Stop the spinner and remove it entirely.
+    public func stopAndClear() {
+        self.stop(text: "", symbol: " ", terminator: "")
+        self.output("\r")
     }
 
     /// Stop the spinner, change it to a green '✔' and persist the current or provided text.
