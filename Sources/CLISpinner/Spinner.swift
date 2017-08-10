@@ -1,5 +1,6 @@
 import Foundation
 import Rainbow
+import Dispatch
 
 public class Spinner {
     /// The pattern the spinner uses.
