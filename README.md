@@ -68,5 +68,5 @@ Signals.trap(signal: .int) { _ in
 ## Used by
 
 - [kiliankoe/apodidae](https://github.com/kiliankoe/apodidae) - CLI to search for Swift packages
+- [Swift-Watch/Watcher](https://github.com/Swift-Watch/Watcher) - file watcher and test runner for Swift projects
 - Your project? 😊
-
