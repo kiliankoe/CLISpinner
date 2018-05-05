@@ -47,7 +47,7 @@ That's basically it 👌
 
 ## Caveat
 
-To look *nice* the spinner hides the user's cursor as long as it's running and displays it again when stopped. The issue with this is that the cursor will still be hidden if the user interrupts the process (by sending a SIGINT through <kbd>control</kbd>+<kbd>C</kbd> for example). The best way to handle this is by setting up a signal handler in your code and calling `spinner.unhideCursor()` on exiting. This library purposefully does not do that for you so as not to interfere with any possible signal handlers you might already have set up.
+To look *nice* the spinner hides the user's cursor as long as it's running and displays it again when stopped. The issue with this is that the cursor will still be hidden if the user interrupts the process (by sending a SIGINT through <kbd>ctrl</kbd>+<kbd>c</kbd> for example). The best way to handle this is by setting up a signal handler in your code and calling `spinner.unhideCursor()` on exiting. This library purposefully does not do that for you so as not to interfere with any possible signal handlers you might already have set up.
 
 See [IBM-Swift/BlueSignals](https://github.com/IBM-Swift/BlueSignals) for a clean and safe way of handling signals. The appropriate signal handler for your project could look something like this.
 
