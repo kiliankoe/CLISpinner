@@ -119,4 +119,19 @@ public struct Pattern: SpinnerPattern, Decodable {
         self.frames = frames
         self.speed = speed
     }
+
+    private enum CodingKeys: String, CodingKey {
+        case frames, speed, interval
+    }
+
+    public init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        frames = try container.decode([String].self, forKey: .frames)
+
+        do {
+            speed = try container.decode(Double.self, forKey: .speed)
+        } catch DecodingError.keyNotFound {
+            speed = try container.decode(Double.self, forKey: .interval) / 1000.0
+        } catch { throw error }
+    }
 }
