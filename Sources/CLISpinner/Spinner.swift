@@ -1,12 +1,13 @@
-import Foundation
+import func Foundation.fflush
+import let Foundation.stdout
 import Rainbow
 import Dispatch
 
-public class Spinner {
+public final class Spinner {
     /// The pattern the spinner uses.
-    public var pattern: Pattern {
-        didSet {
-            self.frameIdx = 0
+    public var frames: [String] {
+        willSet {
+            frameIdx = newValue.startIndex
         }
     }
     /// The time to wait in seconds between each frame of the animation.
@@ -14,25 +15,25 @@ public class Spinner {
     /// Text that is displayed right next to the spinner.
     public var text: String {
         get {
-            return self._text
+            return _text
         }
         set {
             let (_, _, _, newText) = Rainbow.extractModes(for: newValue)
-            let (_, _, _, oldText) = Rainbow.extractModes(for: self._text)
+            let (_, _, _, oldText) = Rainbow.extractModes(for: _text)
             let diff = oldText.count - newText.count
             if diff > 0 {
-                self._text = newValue
-                self._text += Array(repeating: " ", count: diff)
+                _text = newValue
+                _text += Array(repeating: " ", count: diff)
             } else {
-                self._text = newValue
+                _text = newValue
             }
         }
     }
 
-    var _text = ""
-    var isRunning = true
-    var frameIdx = 0
-    let queue = DispatchQueue(label: "io.kilian.CLISpinner")
+    private var _text = ""
+    public private(set) var isRunning = true
+    private var frameIdx: Array<String>.Index!
+    private let queue = DispatchQueue(label: "io.kilian.CLISpinner")
 
     /// Create a new `Spinner`.
     ///
@@ -41,23 +42,42 @@ public class Spinner {
     ///   - text: Text to display, defaults to none.
     ///   - speed: Custom speed value, defaults to a recommended value for each predefined pattern.
     ///   - color: Custom spinner color, defaults to .default.
-    public init(pattern: Pattern, text: String = "", speed: Double? = nil, color: Color = .default) {
-        self.pattern = Pattern(from: pattern.symbols.map { $0.applyingColor(color) })
-        self._text = text
-        self.speed = speed ?? pattern.recommendedSpeed
+    public init(pattern: SpinnerPattern, text: String = "", speed: Double? = nil, color: Color = .default) {
+        frames = pattern.frames.map { $0.applyingColor(color) }
+        _text = text
+        self.speed = speed ?? pattern.speed
+        frameIdx = frames.startIndex
+    }
+
+    /// Create a new `Spinner`.
+    ///
+    /// - Parameters:
+    ///   - pattern: The pattern to use.
+    ///   - text: Text to display, defaults to none.
+    ///   - speed: Custom speed value, defaults to a recommended value for each predefined pattern.
+    ///   - color: Custom spinner color, defaults to .default.
+    public convenience init(pattern: Pattern, text: String = "", speed: Double? = nil, color: Color = .default) {
+        self.init(pattern: pattern as SpinnerPattern, text: text, speed: speed, color: color)
     }
 
     /// Start the spinner.
     public func start() {
+        guard !isRunning else { return }
         hideCursor(true)
         isRunning = true
+
         queue.async { [weak self] in
             guard let `self` = self else { return }
+            self.renderForever()
+        }
+    }
 
-            while self.isRunning {
-                self.render()
-                self.wait(seconds: self.speed)
-            }
+    private func renderForever() {
+        guard isRunning else { return }
+        render()
+        queue.asyncAfter(deadline: .now() + speed) { [weak self] in
+            guard let `self` = self else { return }
+            self.renderForever()
         }
     }
 
@@ -68,81 +88,81 @@ public class Spinner {
     ///   - symbol: A symbol to replace the spinner with when stopping.
     ///   - terminator: The string to print after stopping. Defaults to newline ("\n").
     public func stop(text: String? = nil, symbol: String? = nil, terminator: String = "\n") {
+        guard isRunning else { return }
+
         if let text = text {
             self.text = text
         }
         if let symbol = symbol {
-            self.pattern = Pattern(single: symbol.isEmpty ? " " : symbol)
+            frames = [symbol.isEmpty ? " " : symbol]
         }
-        self.render()
-        self.isRunning = false
+        render()
+        isRunning = false
         hideCursor(false)
         print(terminator: terminator)
     }
 
     /// Stop the spinner and remove it entirely.
     public func stopAndClear() {
-        self.stop(text: "", symbol: " ", terminator: "")
-        self.output("\r")
+        guard isRunning else { return }
+
+        stop(text: "", symbol: " ", terminator: "")
+        output("\r")
     }
 
     /// Stop the spinner, change it to a green '✔' and persist the current or provided text.
     ///
     /// - Parameter text: Text to persist if not the one already set
     public func succeed(text: String? = nil) {
-        self.stop(text: text, symbol: "✔".green)
+        stop(text: text, symbol: "✔".green)
     }
 
     /// Stop the spinner, change it to a red '✖' and persist the current or provided text.
     ///
     /// - Parameter text: Text to persist if not the one already set
     public func fail(text: String? = nil) {
-        self.stop(text: text, symbol: "✖".red)
+        stop(text: text, symbol: "✖".red)
     }
 
     /// Stop the spinner, change it to a yellow '⚠' and persist the current or provided text.
     ///
     /// - Parameter text: Text to persist if not the one already set
     public func warn(text: String? = nil) {
-        self.stop(text: text, symbol: "⚠".yellow)
+        stop(text: text, symbol: "⚠".yellow)
     }
 
     /// Stop the spinner, change it to a blue 'ℹ' and persist the current or provided text.
     ///
     /// - Parameter text: Text to persist if not the one already set
     public func info(text: String? = nil) {
-        self.stop(text: text, symbol: "ℹ".blue)
-    }
-
-    func wait(seconds: Double) {
-        usleep(useconds_t(seconds * 1_000_000))
+        stop(text: text, symbol: "ℹ".blue)
     }
 
     func frame() -> String {
-        let frame = self.pattern.symbols[self.frameIdx]
-        self.frameIdx = (self.frameIdx + 1) % self.pattern.symbols.count
-        return "\(frame) \(self._text)"
+        let frame = frames[frameIdx]
+        frameIdx = (frameIdx + 1) % frames.count
+        return "\(frame) \(_text)"
     }
 
-    func resetCursor() {
+    private func resetCursor() {
         print("\r", terminator: "")
     }
 
-    func render() {
-        self.resetCursor()
-        self.output(self.frame())
+    private func render() {
+        resetCursor()
+        output(frame())
     }
 
-    func output(_ value: String) {
+    private func output(_ value: String) {
         print(value, terminator: "")
         fflush(stdout) // necessary for the carriage return in start()
     }
 
-    func hideCursor(_ hide: Bool) {
+    private func hideCursor(_ hide: Bool) {
         if hide {
-            self.output("\u{001B}[?25l")
+            output("\u{001B}[?25l")
         } else {
-            self.output("\u{001B}[?25h")
+            output("\u{001B}[?25h")
         }
     }
 
@@ -150,7 +170,11 @@ public class Spinner {
     ///
     /// - Note: This should most definitely be called on a SIGINT in your project.
     public func unhideCursor() {
-        self.hideCursor(false)
+        hideCursor(false)
+    }
+
+    deinit {
+        unhideCursor()
     }
 }
 
