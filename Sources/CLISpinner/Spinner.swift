@@ -31,7 +31,7 @@ public final class Spinner {
     }
 
     private var _text = ""
-    public private(set) var isRunning = true
+    public private(set) var isRunning = false
     private var frameIdx: Array<String>.Index!
     private let queue = DispatchQueue(label: "io.kilian.CLISpinner")
 
