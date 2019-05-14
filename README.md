@@ -39,6 +39,26 @@ s.succeed(text: "Barfoo")
 // will change the displayed text to '✔ Barfoo'
 ```
 
+Made your own custom pattern?
+
+```swift
+let pattern = try Pattern.load(from: "/path/to/your/pattern.json")
+let s = spinner(pattern: pattern)
+s.start()
+sleep(2)
+s.stop()
+```
+
+Want all the patterns from [sindresorhus/cli-spinners](https://github.com/sindresorhus/cli-spinners/blob/master/spinners.json)?
+
+```swift
+let patterns = try Patterns(from: "/path/to/spinners.json")
+let s = spinner(pattern: patterns["christmas"]!)
+s.start()
+sleep(2)
+s.stop()
+```
+
 
 
 That's basically it 👌
