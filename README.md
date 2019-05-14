@@ -65,6 +65,48 @@ That's basically it 👌
 
 
 
+## Creating your own Pattern
+
+The `Pattern` type can read in patterns from a JSON file using the following format:
+
+```json
+{
+    "frames": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+    ],
+    "speed": 0.08
+}
+```
+
+To keep multiple patterns in a single file:
+
+```json
+{
+    "pattern-name1": {
+        "frames": [
+            "<(**<)",
+            "<(**)>",
+            "(>**)>"
+        ],
+        "speed": 0.01
+    },
+    "pattern-name2": {
+        "frames": [
+            "1",
+            "2",
+            "3",
+            "2"
+        ],
+        "speed": 0.12
+    }
+}
+```
+
+
 ## Caveat
 
 To look *nice* the spinner hides the user's cursor as long as it's running and displays it again when stopped. The issue with this is that the cursor will still be hidden if the user interrupts the process (by sending a SIGINT through <kbd>ctrl</kbd>+<kbd>c</kbd> for example). The best way to handle this is by setting up a signal handler in your code and calling `spinner.unhideCursor()` on exiting. This library purposefully does not do that for you so as not to interfere with any possible signal handlers you might already have set up.
