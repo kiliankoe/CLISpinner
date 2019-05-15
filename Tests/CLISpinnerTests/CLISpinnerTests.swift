@@ -49,7 +49,7 @@ class CLISpinnerTests: XCTestCase {
 
     func testLoadPattern() {
         let path = #file.components(separatedBy: "/").dropLast().joined(separator: "/") + "/grenade.json"
-        let pattern: Pattern
+        let pattern: CLISpinner.Pattern
         do {
             pattern = try .load(from: path)
         } catch {
