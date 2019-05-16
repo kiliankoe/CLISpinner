@@ -39,10 +39,72 @@ s.succeed(text: "Barfoo")
 // will change the displayed text to '✔ Barfoo'
 ```
 
+Made your own custom pattern?
+
+```swift
+let pattern = try Pattern.load(from: "/path/to/your/pattern.json")
+let s = spinner(pattern: pattern)
+s.start()
+sleep(2)
+s.stop()
+```
+
+Want all the patterns from [sindresorhus/cli-spinners](https://github.com/sindresorhus/cli-spinners/blob/master/spinners.json)?
+
+```swift
+let patterns = try Patterns(from: "/path/to/spinners.json")
+let s = spinner(pattern: patterns["christmas"]!)
+s.start()
+sleep(2)
+s.stop()
+```
+
 
 
 That's basically it 👌
 
+
+
+## Creating your own Pattern
+
+The `Pattern` type can read in patterns from a JSON file using the following format:
+
+```json
+{
+    "frames": [
+        "1",
+        "2",
+        "3",
+        "4",
+        "5"
+    ],
+    "speed": 0.08
+}
+```
+
+To keep multiple patterns in a single file:
+
+```json
+{
+    "pattern-name1": {
+        "frames": [
+            "<(**<)",
+            "<(**)>",
+            "(>**)>"
+        ],
+        "speed": 0.01
+    },
+    "pattern-name2": {
+        "frames": [
+            "1",
+            "2",
+            "3",
+            "2"
+        ],
+        "speed": 0.12
+    }
+}
+```
 
 
 ## Caveat

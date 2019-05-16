@@ -1,4 +1,6 @@
 import XCTest
+import class Foundation.NSRegularExpression
+import func Foundation.NSMakeRange
 @testable import CLISpinner
 
 class CLISpinnerTests: XCTestCase {
@@ -14,7 +16,7 @@ class CLISpinnerTests: XCTestCase {
 
         XCTAssertEqual(s.isRunning, false)
         XCTAssertEqual(s.text, "stop text ")
-        XCTAssertEqual(s.pattern.symbols, ["S"])
+        XCTAssertEqual(s.frames, ["S"])
     }
 
     func testText() {
@@ -28,13 +30,13 @@ class CLISpinnerTests: XCTestCase {
     }
 
     func testFrame() {
-        let p = Pattern(from: ["a", "b", "c"])
+        let p = Pattern.multiple(["a", "b", "c"])
         let s = Spinner(pattern: p)
 
-        XCTAssertEqual(s.frame(), "a ")
-        XCTAssertEqual(s.frame(), "b ")
-        XCTAssertEqual(s.frame(), "c ")
-        XCTAssertEqual(s.frame(), "a ")
+        XCTAssertEqual(s.frame().cleanString(), "a ")
+        XCTAssertEqual(s.frame().cleanString(), "b ")
+        XCTAssertEqual(s.frame().cleanString(), "c ")
+        XCTAssertEqual(s.frame().cleanString(), "a ")
     }
 
 //    func testExample() {
@@ -45,9 +47,48 @@ class CLISpinnerTests: XCTestCase {
 //        print()
 //    }
 
+    func testLoadPattern() {
+        let path = #file.components(separatedBy: "/").dropLast().joined(separator: "/") + "/grenade.json"
+        let pattern: CLISpinner.Pattern
+        do {
+            pattern = try .load(from: path)
+        } catch {
+            XCTFail("Failed to initialize Patterns from \(path) with error: \(type(of: error)).\(error)")
+            return
+        }
+
+        let s = Spinner(pattern: pattern)
+        XCTAssertEqual(s.frames.map({ $0.cleanString() }), ["،   ", "′   ", " ´ ", " ‾ ", "  ⸌", "  ⸊", "  |", "  ⁎", "  ⁕", " ෴ ", "  ⁓", "   ","   ", "   "])
+        XCTAssertEqual(s.speed, 0.08)
+    }
+
+    func testLoadPatterns() {
+        let path = #file.components(separatedBy: "/").dropLast().joined(separator: "/") + "/spinners.json"
+        let patterns: Patterns
+        do {
+            patterns = try .init(from: path)
+        } catch {
+            XCTFail("Failed to initialize Patterns from \(path) with error: \(type(of: error)).\(error)")
+            return
+        }
+
+        let s = Spinner(pattern: patterns["layer"]!)
+        XCTAssertEqual(s.frames.map({ $0.cleanString() }), ["-", "=", "≡"])
+        XCTAssertEqual(s.speed, 0.15)
+    }
+
     static var allTests = [
         ("testState", testState),
         ("testText", testText),
         ("testFrame", testFrame),
+        ("testLoadPattern", testLoadPattern),
+        ("testLoadPatterns", testLoadPatterns),
     ]
+}
+
+private var cleanRegex = try! NSRegularExpression(pattern: "(\u{009B}|\u{001B})\\[[0-?]*[ -\\/]*[@-~]", options: .caseInsensitive)
+fileprivate extension String {
+    func cleanString() -> String? {
+        return cleanRegex.stringByReplacingMatches(in: self, range: NSMakeRange(0, count), withTemplate: "")
+    }
 }
